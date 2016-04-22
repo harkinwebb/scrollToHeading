@@ -44,7 +44,7 @@ ScrollToHeading.prototype.scrollToMenu = function(){
 	this.scroll('#'+this.container.attr('id'));
 };
 
-ScrollToHeading.prototype.highlightActive = function(){
+ScrollToHeading.prototype.highlightActive = function(addToParent = false){
 
 	var activeClass = this.activeClass;
 	var menuItemSelector = this.menuItemSelector
@@ -55,11 +55,25 @@ ScrollToHeading.prototype.highlightActive = function(){
 
 		if(position <= 0)
 		{
-			$(menuItemSelector).removeClass(activeClass);
+			if(addToParent === true)
+			{
+				$(menuItemSelector).parent().removeClass(activeClass);
+			}
+			else
+			{
+				$(menuItemSelector).removeClass(activeClass);
+			}
 
 			var anchor = heading.attr('id');
 
-			$(menuItemSelector+'[href="#'+anchor+'"]').addClass(activeClass);
+			if(addToParent === true)
+			{
+				$(menuItemSelector+'[href="#'+anchor+'"]').parent().addClass(activeClass);
+			}
+			else
+			{
+				$(menuItemSelector+'[href="#'+anchor+'"]').addClass(activeClass);
+			}
 		}
 	});
 };

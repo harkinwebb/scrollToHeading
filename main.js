@@ -10,6 +10,6 @@ $(document).ready(function(){
 	});
 
 	$(document).on('scroll', function(){
-		scrollToHeading.highlightActive();
+		scrollToHeading.highlightActive(false);
 	});
 });

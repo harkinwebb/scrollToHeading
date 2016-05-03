@@ -1,31 +1,37 @@
-var ScrollToHeading = function(headingElement, container, activeClass, menuItemSelector){
-	this.headingElement = $(headingElement);
-	this.container = $(container);
+var ScrollToHeading = function(options){
+	this.headingElement = $(options.headingElement);
+	this.container = $(options.container);
 	this.headingList = $('<ul></ul>');
-	this.activeClass = activeClass;
-	this.menuItemSelector = menuItemSelector;
-}; 
+	this.activeClass = options.activeClass;
+	this.menuItemSelector = options.menuItemSelector;
+	this.headingClasses = options.classMap;
+};
 
 ScrollToHeading.prototype.build = function(){
 
 	var headingList = this.headingList;
+	var headingClasses = this.headingClasses;
 
 	this.headingElement.each(function(){
 		var listItem = $('<li></li>');
 		var listItemLink = $('<a></a>');
-		//var returnLink = $('<a></a>');
-
-		//returnLink.html('&nbsp; Return to menu');
-		//returnLink.addClass('returnLink');
-		//returnLink.attr('href', '#');
+		var elementType = $(this).prop('nodeName').toUpperCase();
 
 		listItemLink.html($(this).html());
 		listItemLink.attr('href', '#'+$(this).attr('id'));
+
 		listItemLink.addClass('menuItem');
+
+		console.log(elementType);
+
+		if(elementType in headingClasses)
+		{
+			console.log('In headding classes');
+			listItemLink.addClass(headingClasses[elementType]);
+		}
 
 		listItem.append(listItemLink);
 		headingList.append(listItem);
-		//$(this).append(returnLink);
 	});
 
 	this.container.append(this.headingList);
@@ -47,7 +53,7 @@ ScrollToHeading.prototype.scrollToMenu = function(){
 ScrollToHeading.prototype.highlightActive = function(addToParent = false){
 
 	var activeClass = this.activeClass;
-	var menuItemSelector = this.menuItemSelector
+	var menuItemSelector = this.menuItemSelector;
 
 	this.headingElement.each(function(){
 		var heading = $(this);
